@@ -1,6 +1,7 @@
 import React from 'react'
 import userImg from "../assets/images/dp.jpg";
 import "../Styles/Home.css";
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -19,9 +20,9 @@ const Home = () => {
           <p className='mail'>example@gmail.com</p>
           <p className='gender'>Female</p>
 
-          <div className="logout-btn">
-            <button className="logout">Logout</button>
-          </div>
+          <Link to={"/"} className="logout-btn">
+            <button>Logout</button>
+          </Link>
         </div>
       </div>
         

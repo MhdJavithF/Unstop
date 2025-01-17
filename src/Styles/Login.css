@@ -165,7 +165,7 @@
     }
 
     button.login-btn {
-        width: 100%;
+        width: 600px;
         height: 70px;
         border-radius: 16px;
         background-color: #6358DC;
@@ -362,6 +362,18 @@
                 cursor: pointer;
             }
 
+        }
+
+        button.login-btn {
+            width: 280px;
+            height: 65px;
+            border-radius: 16px;
+            background-color: #6358DC;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFFFFF;
+            cursor: pointer;
+            border: none;
         }
     }
 }

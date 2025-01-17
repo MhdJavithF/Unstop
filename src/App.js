@@ -3,13 +3,17 @@ import Login from './Pages/Login';
 import Home from './Pages/Home';
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem('authToken');
+  const isAuthenticated = true;
 
   return (
-    <>
-      <Login />
-      <Home />
-    </>
+    <Router>
+      <Routes>
+        {/* <Route path="/" element={<Navigate to="/auth/login" />} /> */}
+        
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/auth/login" />} />
+      </Routes>
+    </Router>
   );
 }
 

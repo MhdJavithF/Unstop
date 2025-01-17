@@ -7,6 +7,7 @@ import mailIcon from "../assets/icons/mail.png";
 import keyIcon from "../assets/icons/key.png";
 import eyeIcon from "../assets/icons/visibility.png";
 import "../Styles/Login.css";
+import { Link } from 'react-router-dom';
 
 
 const Login = () => {
@@ -91,7 +92,10 @@ const Login = () => {
                     </div>
                 </div>
                 
-                <button className='login-btn'>Login</button>
+                <Link to="/home">
+                    <button className='login-btn'>Login</button>
+                </Link>
+                
 
                 <div className="register">
                     <p>Don't have an account? <a>Register</a></p>

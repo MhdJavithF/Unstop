@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import logImg from "../assets/images/Illustration.png";
@@ -11,9 +11,9 @@ import eyeIcon from "../assets/icons/visibility.png";
 import "../Styles/Login.css";
 
 const Login = () => {
-    const usernameRef = useRef('');
-    const emailRef = useRef('');
-    const passRef = useRef('');
+    const [name, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [pwd, setPassword] = useState('');
     const [nameError, setError] = useState('');
     const [isPasswordVisible, setPasswordVisible] = useState(false);
     const navigate = useNavigate();
@@ -21,25 +21,21 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
     
-        const username = usernameRef.current.value;
-        const email = emailRef.current.value;
-        const password = passRef.current.value;
-    
-        const errorMessage = validation(username, email, password);
+        const errorMessage = validation(name, email, pwd);
         if (errorMessage) {
             setError(errorMessage);
             return;
         }
     
         const loginData = {
-            username: username,
-            password: password,
+            username: name,
+            password: pwd,
             email: email,
-            expiresInMins: 30
-        };
+            expiresInMins: 30,
+        }
 
         console.log(loginData);
-    
+
         try {
             const response = await fetch('https://dummyjson.com/auth/login', {
                 method: 'POST',
@@ -49,36 +45,35 @@ const Login = () => {
                 body: JSON.stringify(loginData),
             });
 
-            console.log(response);
-    
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('API Error:', errorData);
                 setError(errorData.message || 'Login failed. Please try again.');
                 return;
             }
-    
+
+            // console.log(response);
+
             const data = await response.json();
-            console.log('Login Successful:', data);
-    
+
+            console.log(data);
+            // console.log("LocalStorage before:", localStorage);
+
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('userData', JSON.stringify(data));
             localStorage.setItem('isAuthenticated', 'true');
 
-            console.log('Local Storage:', localStorage);
+            console.log("LocalStorage after:", localStorage);
             
             navigate('/home');
         } 
-        
         catch (error) {
-            console.error('Fetch Error:', error);
             setError('An error occurred while logging in. Please try again.');
         }
     }
 
     const validation = (username, email, password) => {
-        if (username !== 'emilys') {
-            return 'Invalid username.';
+        if (username != 'emilys') {
+            return 'Username is invalid.';
         }
 
         else if (!validator.isEmail(email)) {
@@ -90,18 +85,17 @@ const Login = () => {
         }
 
         return '';
-    }
+    };
 
     const togglePasswordVisibility = () => {
         setPasswordVisible((prevState) => !prevState);
-      };
+    };
 
     return (
         <div className="page-wrapper">
             <div className="left-sec">
                 <img src={logImg} alt="banner" />
             </div>
-
             <div className="right-sec">
                 <div className="welcome-text">
                     <h2>Welcome to <span>Unstop</span></h2>
@@ -135,7 +129,7 @@ const Login = () => {
                         </div>
                         <div className="name">
                             <label>Username</label>
-                            <input type="text" ref={usernameRef} placeholder="username" required />
+                            <input type="text" onChange={(e) => setUsername(e.target.value)} value={name} placeholder="username" required />
                         </div>
                     </div>
 
@@ -145,7 +139,7 @@ const Login = () => {
                         </div>
                         <div className="name">
                             <label>Email</label>
-                            <input type="email" ref={emailRef} placeholder="username@gmail.com" required />
+                            <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} placeholder="username@gmail.com" required />
                         </div>
                     </div>
 
@@ -155,7 +149,7 @@ const Login = () => {
                         </div>
                         <div className="name">
                             <label>Password</label>
-                            <input type={isPasswordVisible ? "text" : "password"} ref={passRef} placeholder="********" required />
+                            <input type={isPasswordVisible ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} value={pwd} placeholder="********" required />
                         </div>
                         <div className="visible" onClick={togglePasswordVisibility}>
                             <img src={eyeIcon} alt="visibility toggle" />
@@ -174,7 +168,6 @@ const Login = () => {
                         </div>
 
                         {nameError && <span className="err-msg">{nameError}</span>}
-
                         <button className="login-btn" type="submit">Login</button>
 
                         <div className="register">
@@ -185,6 +178,6 @@ const Login = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Login;

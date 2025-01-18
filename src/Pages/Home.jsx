@@ -1,9 +1,17 @@
 import React from 'react'
-import userImg from "../assets/images/dp.jpg";
+import userImg from "../assets/images/dp.png";
 import "../Styles/Home.css";
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userData');
+    localStorage.setItem('isAuthenticated', 'false');
+    console.log('Local storage cleared & Logged out successfully');
+  };
+
   return (
     <div className='home-wrapper'>
       <div className="content-wrapper">
@@ -16,12 +24,12 @@ const Home = () => {
           <div className="user-img">
             <img src={userImg} alt="user img" />
           </div>
-          <p className='name'>Michael Dam</p>
+          <h3 className='name'>Michael Dam</h3>
           <p className='mail'>example@gmail.com</p>
           <p className='gender'>Female</p>
 
-          <Link to={"/"} className="logout-btn">
-            <button>Logout</button>
+          <Link to={"/auth/login"} className="logout-btn">
+            <button onClick={handleLogout}>Logout</button>
           </Link>
         </div>
       </div>
@@ -31,4 +39,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;

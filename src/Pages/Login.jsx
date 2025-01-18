@@ -64,7 +64,9 @@ const Login = () => {
 
             console.log("LocalStorage after:", localStorage);
             
-            navigate('/home');
+            setTimeout(() => {
+                navigate('/home');
+            }, 200);
         } 
         catch (error) {
             setError('An error occurred while logging in. Please try again.');

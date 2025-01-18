@@ -10,7 +10,7 @@ import keyIcon from "../assets/icons/key.png";
 import eyeIcon from "../assets/icons/visibility.png";
 import "../Styles/Login.css";
 
-const Login = () => {
+const Login = ({setIsAuthenticated}) => {
     const [name, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPassword] = useState('');
@@ -35,7 +35,7 @@ const Login = () => {
         }
 
         console.log(loginData);
-
+    
         try {
             const response = await fetch('https://dummyjson.com/auth/login', {
                 method: 'POST',
@@ -43,35 +43,34 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(loginData),
-            });
-
+            })
+    
             if (!response.ok) {
                 const errorData = await response.json();
                 setError(errorData.message || 'Login failed. Please try again.');
                 return;
             }
-
+    
             // console.log(response);
 
             const data = await response.json();
 
-            console.log(data);
-            // console.log("LocalStorage before:", localStorage);
+            // console.log(data);
 
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('userData', JSON.stringify(data));
             localStorage.setItem('isAuthenticated', 'true');
 
-            console.log("LocalStorage after:", localStorage);
-            
-            setTimeout(() => {
-                navigate('/home');
-            }, 200);
-        } 
-        catch (error) {
+            console.log("Local storage:", localStorage);
+    
+            setIsAuthenticated(true);
+    
+            navigate('/home');
+        } catch (error) {
             setError('An error occurred while logging in. Please try again.');
         }
     }
+    
 
     const validation = (username, email, password) => {
         if (username != 'emilys') {

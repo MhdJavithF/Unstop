@@ -7,15 +7,18 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated') == 'true';
+    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
     setIsAuthenticated(authStatus);
-  }, []);
+  }, []); 
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to={isAuthenticated ? "/home" : "/auth/login"} />} />
-        <Route path="/auth/login" element={<Login />} />
+        <Route 
+          path="/" 
+          element={<Navigate to={isAuthenticated ? "/home" : "/auth/login"} />} 
+        />
+        <Route path="/auth/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/auth/login" />} />
       </Routes>
     </Router>
